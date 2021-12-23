@@ -11,6 +11,6 @@ This project was uploaded [here](https://hr-crypto-tracker.netlify.app)
 ✔ React JS\
 ✔ Material UI
 
-## Crypto API
+## API
 
 Im using [coingecko](https://www.coingecko.com/en/api) API for this project
