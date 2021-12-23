@@ -50,7 +50,7 @@ const CoinInfo = ({ coin }) => {
         <CircularProgress style={{ color: "black" }} size={250} thickness={1} />
       ) : (
         <>
-          <Select variant="outlined" style={{ width: 120, height: 40, alignSelf: "start", marginLeft: 50 }} value={chartDays.value} defaultValue={"1"} onChange={(e) => setDays(e.target.value)}>
+          <Select variant="outlined" style={{ width: 120, height: 40, alignSelf: "start", marginLeft: 80 }} value={chartDays.value} defaultValue={"1"} onChange={(e) => setDays(e.target.value)}>
             <MenuItem value={"1"}>24 Hours</MenuItem>
             <MenuItem value={"30"}>30 Days</MenuItem>
             <MenuItem value={"90"}>3 Months</MenuItem>
