@@ -54,6 +54,7 @@ const CoinInfo = ({ coin }) => {
             <MenuItem value={"1"}>24 Hours</MenuItem>
             <MenuItem value={"30"}>30 Days</MenuItem>
             <MenuItem value={"90"}>3 Months</MenuItem>
+            <MenuItem value={"180"}>6 Months</MenuItem>
             <MenuItem value={"365"}>1 Year</MenuItem>
           </Select>
 
