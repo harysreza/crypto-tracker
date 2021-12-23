@@ -4,7 +4,7 @@ This project was uploaded [here](https://hr-crypto-tracker.netlify.app)
 
 ## Stack
 
-✔ React JS__
+✔ React JS <br />
 ✔ Material UI
 
 ### Crypto API
