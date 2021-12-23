@@ -1,6 +1,6 @@
 ## Crypto Tracker
 
-![](public/cryptootracker.png)
+<img src="public/cryptotracker.PNG">
 
 ## Visit
 
