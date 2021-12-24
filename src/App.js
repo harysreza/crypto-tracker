@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import CoinPage from "./Pages/CoinPage";
 import HomePage from "./Pages/HomePage";
 import { Buffer } from "buffer";
+import Alert from "./components/Alert";
 
 global.Buffer = Buffer;
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/coins/:id" element={<CoinPage />} />
         </Routes>
       </div>
+      <Alert />
     </BrowserRouter>
   );
 }

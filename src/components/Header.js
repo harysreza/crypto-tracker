@@ -1,5 +1,8 @@
 import { AppBar, Container, makeStyles, Toolbar, Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
+import AuthModal from "./Authentication/AuthModal";
+import { CryptoState } from "../CryptoContext";
+import UserSidebar from "./Authentication/UserSidebar";
 
 const Header = () => {
   const useStyles = makeStyles(() => ({
@@ -15,6 +18,8 @@ const Header = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
+  const { user } = CryptoState();
+
   return (
     <AppBar style={{ background: "#1a1a1a" }} position="static">
       <Container>
@@ -22,6 +27,7 @@ const Header = () => {
           <Typography className={classes.title} variant="h5" onClick={() => navigate("/")}>
             Crypto Tracker
           </Typography>
+          {user ? <UserSidebar /> : <AuthModal />}
         </Toolbar>
       </Container>
     </AppBar>

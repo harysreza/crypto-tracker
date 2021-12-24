@@ -1,4 +1,4 @@
-import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
+import { Button, LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -7,12 +7,14 @@ import { SingleCoin } from "../config/api";
 import { numberWithCommas } from "../components/CoinsTable";
 import { CryptoState } from "../CryptoContext";
 import ReactHtmlParser from "react-html-parser";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const CoinPage = () => {
   const { id } = useParams();
   const [coin, setCoin] = useState();
 
-  const { currency, symbol } = CryptoState();
+  const { currency, symbol, user, tracklist, setAlert } = CryptoState();
 
   const fetchCoin = async () => {
     const { data } = await axios.get(SingleCoin(id));
@@ -65,9 +67,6 @@ const CoinPage = () => {
       width: "100%",
       [theme.breakpoints.down("md")]: {
         display: "flex",
-        justifyContent: "space-around",
-      },
-      [theme.breakpoints.down("sm")]: {
         flexDirection: "column",
         alignItems: "center",
       },
@@ -76,6 +75,58 @@ const CoinPage = () => {
       },
     },
   }));
+
+  const inTracklist = tracklist.includes(coin?.id);
+
+  const addToTracklist = async () => {
+    const coinRef = doc(db, "tracklist", user.uid);
+
+    try {
+      await setDoc(coinRef, {
+        coins: tracklist ? [...tracklist, coin?.id] : [coin?.id],
+      });
+
+      setAlert({
+        open: true,
+        message: `${coin.name} Added to the Tracklist`,
+        type: "success",
+      });
+    } catch (error) {
+      setAlert({
+        open: true,
+        message: error.message,
+        type: "error",
+      });
+      return;
+    }
+  };
+
+  const removeFromTracklist = async () => {
+    const coinRef = doc(db, "tracklist", user.uid);
+
+    try {
+      await setDoc(
+        coinRef,
+        {
+          coins: tracklist.filter((track) => track !== coin?.id),
+        },
+        { merge: "true" }
+      );
+
+      setAlert({
+        open: true,
+        message: `${coin.name} Removed from the Tracklist`,
+        type: "success",
+      });
+    } catch (error) {
+      setAlert({
+        open: true,
+        message: error.message,
+        type: "error",
+      });
+      return;
+    }
+  };
 
   const classes = useStyles();
 
@@ -86,7 +137,7 @@ const CoinPage = () => {
       <CoinInfo coin={coin} />
 
       <div className={classes.sidebar}>
-        <img src={coin?.image.large} alt={coin?.name} height="200" style={{ marginBottom: 20, marginTop: 90 }} />
+        <img src={coin?.image.large} alt={coin?.name} height="200" style={{ marginBottom: 20, marginTop: 60 }} />
         <Typography variant="h3" className={classes.header}>
           {coin?.name}
         </Typography>
@@ -138,6 +189,11 @@ const CoinPage = () => {
               {symbol} {numberWithCommas(coin?.market_data.market_cap[currency.toLowerCase()].toString().slice(0, -6))}M
             </Typography>
           </span>
+          {user && (
+            <Button variant="outlined" style={{ width: "100%", height: 40, backgroundColor: inTracklist ? "#b30000" : "black", color: "white" }} onClick={inTracklist ? removeFromTracklist : addToTracklist}>
+              {inTracklist ? "Remove from Tracklist" : "Add to Tracklist"}
+            </Button>
+          )}
         </div>
       </div>
     </div>
