@@ -10,7 +10,7 @@ This project was uploaded [here](https://hr-crypto-tracker.netlify.app)
 
 ✔ React JS\
 ✔ Material UI\
-✔ Chart JS
+✔ Chart JS\
 ✔ Firebase Auth
 
 ## API
